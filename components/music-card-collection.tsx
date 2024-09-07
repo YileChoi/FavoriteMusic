@@ -7,12 +7,23 @@ import { Button } from "@/components/ui/button"
 import { MusicCard } from "./music-card"
 import { useMusicData } from "@/hooks/useMusicData"
 import { initialMusicData } from "@/data/initialMusicData"
+import AddMusicCardModal from "./add-music-card-modal"
 
 export function MusicCardCollection() {
   const [editMode, setEditMode] = useState(false);
+  const [isAddingNewCard, setIsAddingNewCard] = useState(false);
   const { musicData, editingCard, handleSave, openEditModal, closeEditModal } = useMusicData(initialMusicData);
 
   const toggleEditMode = () => setEditMode(!editMode);
+
+  const openAddNewCardModal = () => setIsAddingNewCard(true);
+  const closeAddNewCardModal = () => setIsAddingNewCard(false);
+
+  const handleAddNewCard = (newCardData: { artist: string; song: string; image: string }) => {
+    // TODO: Implement actual new card addition logic
+    console.log("New card data:", newCardData);
+    closeAddNewCardModal();
+  };
 
   return (
     <div className="bg-gray-900 text-white p-8">
@@ -40,7 +51,10 @@ export function MusicCardCollection() {
       </div>
 
       {/* Add New Card Button */}
-      <Button className="mt-8 bg-white hover:bg-gray-200 text-[#080808] transition duration-300">
+      <Button 
+        onClick={openAddNewCardModal}
+        className="mt-8 bg-white hover:bg-gray-200 text-[#080808] transition duration-300"
+      >
         <PlusCircle className="mr-2 h-4 w-4" /> Add New Card
       </Button>
 
@@ -50,6 +64,13 @@ export function MusicCardCollection() {
         onClose={closeEditModal}
         onSave={handleSave}
         initialData={editingCard || undefined}
+      />
+
+      {/* Add New Card Modal */}
+      <AddMusicCardModal
+        isOpen={isAddingNewCard}
+        onClose={closeAddNewCardModal}
+        onSave={handleAddNewCard}
       />
     </div>
   )
