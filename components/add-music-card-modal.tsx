@@ -105,7 +105,7 @@ export default function AddMusicCardModal({
             Cancel
           </Button>
           <Button onClick={handleSave} className="bg-purple-600 hover:bg-purple-700">
-            Add Card
+            Save
           </Button>
         </DialogFooter>
       </DialogContent>

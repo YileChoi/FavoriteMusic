@@ -12,7 +12,7 @@ import AddMusicCardModal from "./add-music-card-modal"
 export function MusicCardCollection() {
   const [editMode, setEditMode] = useState(false);
   const [isAddingNewCard, setIsAddingNewCard] = useState(false);
-  const { musicData, editingCard, handleSave, openEditModal, closeEditModal } = useMusicData(initialMusicData);
+  const { musicData, editingCard, handleSave, openEditModal, closeEditModal, addNewCard } = useMusicData(initialMusicData);
 
   const toggleEditMode = () => setEditMode(!editMode);
 
@@ -20,8 +20,7 @@ export function MusicCardCollection() {
   const closeAddNewCardModal = () => setIsAddingNewCard(false);
 
   const handleAddNewCard = (newCardData: { artist: string; song: string; image: string }) => {
-    // TODO: Implement actual new card addition logic
-    console.log("New card data:", newCardData);
+    addNewCard(newCardData);
     closeAddNewCardModal();
   };
 

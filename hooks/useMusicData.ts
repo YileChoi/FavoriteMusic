@@ -17,5 +17,13 @@ export function useMusicData(initialData: MusicCard[]) {
     closeEditModal();
   };
 
-  return { musicData, editingCard, handleSave, openEditModal, closeEditModal };
+  const addNewCard = (data: { artist: string; song: string; image: string }) => {
+    const newCard: MusicCard = {
+      id: Date.now().toString(), // Simple way to generate a unique ID
+      ...data
+    };
+    setMusicData(prevData => [...prevData, newCard]);
+  };
+
+  return { musicData, editingCard, handleSave, openEditModal, closeEditModal, addNewCard };
 }
