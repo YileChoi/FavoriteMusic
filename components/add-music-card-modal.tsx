@@ -25,6 +25,7 @@ export default function AddMusicCardModal({
   onSave,
 }: AddMusicCardModalProps) {
   const [formData, setFormData] = useState({ artist: "", song: "", image: "" })
+  const [error, setError] = useState("")
 
   const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target
@@ -32,8 +33,13 @@ export default function AddMusicCardModal({
   }, [])
 
   const handleSave = useCallback(() => {
+    if (!formData.artist.trim() || !formData.song.trim()) {
+      setError("Artist and Song fields are required.")
+      return
+    }
     onSave(formData)
-    setFormData({ artist: "", song: "", image: "" }) // Reset form after saving
+    setFormData({ artist: "", song: "", image: "" })
+    setError("")
     onClose()
   }, [formData, onSave, onClose])
 
@@ -79,6 +85,9 @@ export default function AddMusicCardModal({
             />
           </div>
         </div>
+        {error && (
+          <p className="text-red-500 text-sm mt-2">{error}</p>
+        )}
         <div className="mt-4 p-4 bg-gray-900 rounded-lg">
           <h3 className="text-lg font-semibold mb-2">Preview</h3>
           <div className="w-full max-w-[225px] h-[400px] bg-gray-800 rounded-lg overflow-hidden shadow-lg mx-auto">

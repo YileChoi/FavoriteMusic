@@ -8,17 +8,30 @@ import { useRouter } from "next/router"
 
 export default function AddMusicCardPage() {
   const [formData, setFormData] = useState({ artist: "", song: "", image: "" })
+  const [errors, setErrors] = useState({ artist: "", song: "" })
   const router = useRouter()
 
   const handleInputChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const { id, value } = e.target
     setFormData(prev => ({ ...prev, [id]: value }))
+    // Clear error when user starts typing
+    if (id === 'artist' || id === 'song') {
+      setErrors(prev => ({ ...prev, [id]: "" }))
+    }
   }, [])
 
   const handleSave = useCallback(() => {
-    // TODO: Implement save functionality
-    console.log("Saving new music card:", formData)
-    router.push("/") // Redirect to home page after saving
+    const newErrors = {
+      artist: formData.artist.trim() === "" ? "Artist is required" : "",
+      song: formData.song.trim() === "" ? "Song is required" : "",
+    }
+    setErrors(newErrors)
+
+    if (newErrors.artist === "" && newErrors.song === "") {
+      // TODO: Implement save functionality
+      console.log("Saving new music card:", formData)
+      router.push("/") // Redirect to home page after saving
+    }
   }, [formData, router])
 
   return (
@@ -29,23 +42,29 @@ export default function AddMusicCardPage() {
           <Label htmlFor="artist" className="text-right">
             Artist
           </Label>
-          <Input
-            id="artist"
-            value={formData.artist}
-            onChange={handleInputChange}
-            className="col-span-3 bg-gray-700 border-gray-600"
-          />
+          <div className="col-span-3">
+            <Input
+              id="artist"
+              value={formData.artist}
+              onChange={handleInputChange}
+              className="bg-gray-700 border-gray-600"
+            />
+            {errors.artist && <p className="text-red-500 text-sm mt-1">{errors.artist}</p>}
+          </div>
         </div>
         <div className="grid grid-cols-4 items-center gap-4">
           <Label htmlFor="song" className="text-right">
             Song
           </Label>
-          <Input
-            id="song"
-            value={formData.song}
-            onChange={handleInputChange}
-            className="col-span-3 bg-gray-700 border-gray-600"
-          />
+          <div className="col-span-3">
+            <Input
+              id="song"
+              value={formData.song}
+              onChange={handleInputChange}
+              className="bg-gray-700 border-gray-600"
+            />
+            {errors.song && <p className="text-red-500 text-sm mt-1">{errors.song}</p>}
+          </div>
         </div>
         <div className="grid grid-cols-4 items-center gap-4">
           <Label htmlFor="image" className="text-right">
