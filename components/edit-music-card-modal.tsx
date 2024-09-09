@@ -27,10 +27,12 @@ export default function MusicCardEditModal({
   initialData = { artist: "", song: "", image: "" },
 }: MusicCardEditModalProps) {
   const [formData, setFormData] = useState(initialData)
+  const [error, setError] = useState("")
 
   useEffect(() => {
     if (isOpen) {
       setFormData(initialData)
+      setError("")
     }
   }, [isOpen, initialData])
 
@@ -40,7 +42,12 @@ export default function MusicCardEditModal({
   }, [])
 
   const handleSave = useCallback(() => {
+    if (!formData.artist.trim() || !formData.song.trim()) {
+      setError("Artist and Song fields are required.")
+      return
+    }
     onSave(formData)
+    setError("")
     onClose()
   }, [formData, onSave, onClose])
 
@@ -86,6 +93,9 @@ export default function MusicCardEditModal({
             />
           </div>
         </div>
+        {error && (
+          <p className="text-red-500 text-sm mt-2">{error}</p>
+        )}
         <div className="mt-4 p-4 bg-gray-900 rounded-lg">
           <h3 className="text-lg font-semibold mb-2">Preview</h3>
           <div className="w-full max-w-[225px] h-[400px] bg-gray-800 rounded-lg overflow-hidden shadow-lg mx-auto">
