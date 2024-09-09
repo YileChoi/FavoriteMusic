@@ -24,6 +24,14 @@ export function MusicCardCollection() {
     closeAddNewCardModal();
   };
 
+  const scrollbarHideStyle = {
+    msOverflowStyle: 'none',  // IE and Edge
+    scrollbarWidth: 'none',   // Firefox
+    '&::-webkit-scrollbar': { 
+      display: 'none'         // Chrome, Safari and Opera
+    }
+  };
+
   return (
     <div className="bg-gray-900 text-white p-8">
       {/* Header */}
@@ -38,7 +46,10 @@ export function MusicCardCollection() {
       </div>
 
       {/* Music Cards */}
-      <div className="flex overflow-x-auto space-x-4 pb-8 snap-x snap-mandatory">
+      <div 
+        className="flex overflow-x-auto space-x-4 pb-8 snap-x snap-mandatory"
+        style={scrollbarHideStyle}
+      >
         {musicData.map((item) => (
           <MusicCard 
             key={item.id} 
