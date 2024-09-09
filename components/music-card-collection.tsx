@@ -26,11 +26,11 @@ export function MusicCardCollection() {
 
   const scrollbarHideStyle = {
     msOverflowStyle: 'none',  // IE and Edge
-    scrollbarWidth: 'none',   // Firefox
+    scrollbarWidth: 'none' as 'none',   // Firefox
     '&::-webkit-scrollbar': { 
       display: 'none'         // Chrome, Safari and Opera
     }
-  };
+  } as const;
 
   return (
     <div className="bg-gray-900 text-white p-8">
@@ -48,7 +48,7 @@ export function MusicCardCollection() {
       {/* Music Cards */}
       <div 
         className="flex overflow-x-auto space-x-4 pb-8 snap-x snap-mandatory"
-        style={scrollbarHideStyle}
+        style={scrollbarHideStyle as React.CSSProperties}
       >
         {musicData.map((item) => (
           <MusicCard 
